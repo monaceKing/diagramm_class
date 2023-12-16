@@ -1,0 +1,54 @@
+@startuml
+class ModelUtilisateur {
+* nom : String
+* prenom : String
+}
+
+class Administrateur {
+  + ajouterGestionnaire()
+  + bloquerGestionnaire()
+  + supprimerGestionnaire()
+  + validerParking()
+  + supprimerParking()
+}
+
+class Gestionnaire {
+  + ajouterParking()
+  + voirReservations()
+  + validerReservation(scan: Scan)
+}
+
+class Client {
+  + listerParkings()
+  + effectuerReservation(): Reservation
+  + annulerReservation(reservation: Reservation)
+}
+
+class Parking {
+  - nom: String
+  - localisation: String
+  - tarifParHeure: Double
+  - heureOuverture: Time
+  - heureFermeture: Time
+  - joursOuvrables: Set<DayOfWeek>
+  - gestionnaire: Gestionnaire
+  + reservations: Set<Reservation>
+}
+
+
+class Reservation {
+  - client: Client
+  - parking: Parking
+}
+
+class Scan {
+}
+
+Administrateur --|> Gestionnaire
+Gestionnaire --|> Client
+Client --|> ModelUtilisateur
+
+Administrateur "1" .. "*" Parking
+Gestionnaire "1" .. "1" Parking
+Client "1" .. "*" Reservation
+@enduml
